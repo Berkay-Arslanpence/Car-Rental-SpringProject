@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //random kendimiz yapıcaz Generated Value kullanmadan
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //2.submissionda bir methodla random String oluşturularak yapılacak
     private String reservationNumber;
 
     private Date creationDate;
