@@ -1,4 +1,4 @@
-package com.rentCar.carRental_app.model;
+package com.rentCar.carRental_app;
 
 import jakarta.persistence.*;
 import lombok.Data;

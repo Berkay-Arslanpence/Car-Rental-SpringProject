@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,13 +12,13 @@ import java.util.List;
 @NoArgsConstructor
 public class Reservation {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //random kendimiz yapıcaz Generated Value kullanmadan
     private String reservationNumber;
 
-    private LocalDateTime creationDate;
-    private LocalDateTime pickUpDateTime;
-    private LocalDateTime dropOffDateTime;
-    private LocalDateTime returnDate;
+    private Date creationDate;
+    private Date pickUpDateTime;
+    private Date dropOffDateTime;
+    private Date returnDate;
 
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -27,7 +27,7 @@ public class Reservation {
     private Member member;
 
     @ManyToOne
-    private com.rentCar.carRental_app.model.Car car;
+    private Car car;
 
     @ManyToOne
     private Location pickUpLocation;
