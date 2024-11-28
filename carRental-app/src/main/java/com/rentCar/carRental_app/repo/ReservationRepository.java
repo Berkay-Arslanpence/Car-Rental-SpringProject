@@ -8,10 +8,14 @@ import java.util.List;
 
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
-    // Find all reservations by status
-    List<Reservation> findAllByStatus(Reservation.Status status);
+    // Find reservations by status
+    List<Reservation> findByStatus(Reservation.Status status);
 
-    // Find reservations for a specific member
-    List<Reservation> findAllByMemberId(Long memberId);
+    // Find a reservation by reservation number
+    Reservation findByReservationNumber(String reservationNumber);
+
+    // Fetch all rented (Loaned/Reserved) cars with reservation details
+    List<Reservation> findAllByStatusIn(List<Reservation.Status> statuses);
 }
+
 

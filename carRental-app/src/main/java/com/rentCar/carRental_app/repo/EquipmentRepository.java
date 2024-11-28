@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
-    // Custom query to find equipment by name
+    // Find equipment by name
     Equipment findByName(String name);
 }

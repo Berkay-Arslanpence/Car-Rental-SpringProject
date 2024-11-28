@@ -7,7 +7,13 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CarRepository extends JpaRepository<Car, Long> {
-    // Custom query to find cars by status
-    List<Car> findAllByStatus(Car.CarStatus status);
+public interface CarRepository extends JpaRepository<Car, String> {
+
+    List<Car> findByCarTypeAndTransmissionTypeAndStatus(String carType, String transmissionType, Car.CarStatus status);
+
+
+    Car findByBarcode(String barcode);
+
+
+    void deleteByBarcodeAndStatus(String barcode, Car.CarStatus status);
 }

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ServiceRepository extends JpaRepository<Service, Long> {
-    // Custom query to find a service by name
+    // Find service by name
     Service findByName(String name);
 }
