@@ -13,13 +13,7 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, String> {
 
-
-    @Modifying
-    @Query(value= "insert into reservation r   )
-    Reservation InsertReservation();
     Reservation findByReservationNumber(String reservationNumber);
-
-
 
     @Query("SELECT r FROM Reservation r " +
             "JOIN r.car c " +
