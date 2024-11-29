@@ -115,6 +115,16 @@ public class ReservationService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    public boolean deleteReservationByReservationNumber(String reservationNumber) {
+        try{
+            reservationRepository.deleteReservation(reservationNumber);
+        } catch (RuntimeException e) {
+            return false;
+        }
+            return true;
+    }
+
     public double calculateTotalAmount(int dayCount, double cardailyPrice, List<Services> serviceList, List<Equipment> equipmentList){
         double totalservicePrice =0 ;
         for(int i=0;i< serviceList.size();i++){
