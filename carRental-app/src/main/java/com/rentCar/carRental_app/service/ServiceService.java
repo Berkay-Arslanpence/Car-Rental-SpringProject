@@ -1,12 +1,11 @@
 package com.rentCar.carRental_app.service;
 
-import com.rentCar.carRental_app.model.Service;
+import com.rentCar.carRental_app.model.Services;
 import com.rentCar.carRental_app.repo.ServiceRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
+@Services
 public class ServiceService {
 
     private final ServiceRepository serviceRepository;
@@ -15,11 +14,11 @@ public class ServiceService {
         this.serviceRepository = serviceRepository;
     }
 
-    public List<Service> getAllServices() {
+    public List<Services> getAllServices() {
         return serviceRepository.findAll();
     }
 
-    public Service getServiceByName(String name) {
+    public Services getServiceByName(String name) {
         return serviceRepository.findByName(name);
     }
 }

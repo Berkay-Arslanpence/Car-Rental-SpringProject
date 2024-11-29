@@ -39,7 +39,7 @@ public class Reservation {
     private List<Equipment> equipmentList;
 
     @ManyToMany
-    private List<Service> serviceList;
+    private List<Services> serviceList;
 
     public enum Status {
         ACTIVE, PENDING, CONFIRMED, COMPLETED, CANCELLED, NONE
@@ -133,11 +133,11 @@ public class Reservation {
         this.equipmentList = equipmentList;
     }
 
-    public List<Service> getServiceList() {
+    public List<Services> getServiceList() {
         return serviceList;
     }
 
-    public void setServiceList(List<Service> serviceList) {
+    public void setServiceList(List<Services> serviceList) {
         this.serviceList = serviceList;
     }
 }

@@ -1,14 +1,14 @@
 package com.rentCar.carRental_app.mapper;
 
 import com.rentCar.carRental_app.dto.ServiceDTO;
-import com.rentCar.carRental_app.model.Service;
+import com.rentCar.carRental_app.model.Services;
 
 public class ServiceMapper {
-    public static ServiceDTO serviceToServiceDTO(Service service) {
+    public static ServiceDTO serviceToServiceDTO(Services service) {
         return new ServiceDTO(service.getName(), service.getPrice());
     }
-    public static Service serviceDTOToService(ServiceDTO serviceDTO) {
-        Service service = new Service();
+    public static Services serviceDTOToService(ServiceDTO serviceDTO) {
+        Services service = new Services();
         service.setName(serviceDTO.getName());
         service.setPrice(serviceDTO.getPrice());
         return service;

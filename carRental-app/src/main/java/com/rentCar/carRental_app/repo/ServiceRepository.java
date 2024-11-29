@@ -1,11 +1,11 @@
 package com.rentCar.carRental_app.repo;
 
-import com.rentCar.carRental_app.model.Service;
+import com.rentCar.carRental_app.model.Services;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface ServiceRepository extends JpaRepository<Service, Long> {
+public interface ServiceRepository extends JpaRepository<Services, Long> {
     // Find service by name
-    Service findByName(String name);
+    Services findByName(String name);
 }

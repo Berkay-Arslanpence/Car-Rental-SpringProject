@@ -6,7 +6,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Configuration
@@ -84,11 +83,11 @@ public class DataInitializer {
             equipmentRepository.saveAll(List.of(equipment1, equipment2));
 
             // Add sample services
-            Service service1 = new Service();
+            Services service1 = new Services();
             service1.setName("Roadside Assistance");
             service1.setPrice(25.0);
 
-            Service service2 = new Service();
+            Services service2 = new Services();
             service2.setName("Additional Driver");
             service2.setPrice(30.0);
 
