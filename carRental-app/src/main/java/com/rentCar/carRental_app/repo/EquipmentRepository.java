@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EquipmentRepository extends JpaRepository<Equipment, Long> {
-    // Find equipment by name
     Equipment findByName(String name);
+    Equipment findById(long id);
 }

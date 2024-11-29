@@ -9,10 +9,7 @@ import com.rentCar.carRental_app.model.Car;
 import com.rentCar.carRental_app.model.Equipment;
 import com.rentCar.carRental_app.model.Reservation;
 import com.rentCar.carRental_app.model.Services;
-import com.rentCar.carRental_app.repo.CarRepository;
-import com.rentCar.carRental_app.repo.LocationRepository;
-import com.rentCar.carRental_app.repo.MemberRepository;
-import com.rentCar.carRental_app.repo.ReservationRepository;
+import com.rentCar.carRental_app.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +31,10 @@ public class ReservationService {
     LocationRepository locationRepository;
     @Autowired
     MemberRepository memberRepository;
+    @Autowired
+    private ServiceRepository serviceRepository;
+    @Autowired
+    private EquipmentRepository equipmentRepository;
 
     public ReservationService(ReservationRepository reservationRepository, CarRepository carRepository) {
         this.reservationRepository = reservationRepository;
@@ -126,6 +127,57 @@ public class ReservationService {
         }
       return dayCount*cardailyPrice +totalservicePrice+totalequipmentPrice;
 
+    }
+
+    public boolean AddAdditionalService(String reservationNumber, long serviceId){
+        try{
+            Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);
+            if(reservation == null){
+                return false; //404-notfound
+            }
+
+            Services additionalService = serviceRepository.findById(serviceId);
+            if(additionalService == null){
+                return false; //404-service not found
+            }
+
+            if (reservation.getServiceList().contains(additionalService)){
+                return false; // service already added exception
+            }
+
+            reservation.getServiceList().add(additionalService);
+            reservationRepository.save(reservation);
+
+            return true; //200-success
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false; //500-exception
+        }
+    }
+
+    public boolean AddAdditionalEquipment(String reservationNumber, long equipmentId){
+        try {
+            Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);
+            if(reservation == null){
+                return false;
+            }
+
+            Equipment additionalEquipment = equipmentRepository.findById(equipmentId);
+            if(additionalEquipment == null){
+                return false;
+            }
+            if (reservation.getEquipmentList().contains(additionalEquipment)){
+                return false;
+            }
+
+            reservation.getEquipmentList().add(additionalEquipment);
+            reservationRepository.save(reservation);
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

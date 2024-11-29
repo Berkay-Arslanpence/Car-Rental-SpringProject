@@ -24,7 +24,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     List<Reservation> findAllReservationsWithLoanedOrReservedCars();
 
 
-
 }
 
 
