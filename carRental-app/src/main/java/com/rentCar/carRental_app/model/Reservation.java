@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.sql.PreparedStatement;
 import java.util.Date;
 import java.util.List;
 
@@ -14,11 +15,11 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //2.submissionda bir methodla random String oluşturularak yapılacak
     private String reservationNumber;
-
     private Date creationDate;
     private Date pickUpDateTime;
     private Date dropOffDateTime;
     private Date returnDate;
+    @Transient
     private double totalAmount; //HESAPLAMASINI YAZIN
 
     @Enumerated(EnumType.STRING)
@@ -44,6 +45,16 @@ public class Reservation {
 
     public enum Status {
         ACTIVE, PENDING, CONFIRMED, COMPLETED, CANCELLED, NONE
+    }
+    public Reservation(Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate, Location pickUpLocation, Location dropoffLocation,Member member){
+        this.creationDate = creationDate;
+        this.pickUpDateTime = pickUpDateTime;
+        this.dropOffDateTime = dropOffDateTime;
+        this.returnDate = returnDate;
+        this.pickUpLocation = pickUpLocation;
+        this.dropOffLocation = dropoffLocation;
+        this.member = member;
+
     }
 
     public Date getCreationDate() {

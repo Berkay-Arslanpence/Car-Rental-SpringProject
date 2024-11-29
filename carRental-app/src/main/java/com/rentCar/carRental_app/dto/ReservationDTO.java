@@ -3,19 +3,23 @@ package com.rentCar.carRental_app.dto;
 import java.util.Date;
 
 public class ReservationDTO {
+    private String reservationNumber;
     private Date creationDate;
     private Date pickUpDateTime;
     private Date dropOffDateTime;
     private Date returnDate;
+    private double totalAmount;
     public ReservationDTO() {
         super();
     }
-    public ReservationDTO(Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate) {
+    public ReservationDTO(String reservationNumber,Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate, double totalAmount) {
         super();
+        this.reservationNumber=reservationNumber;
         this.creationDate = creationDate;
         this.pickUpDateTime = pickUpDateTime;
         this.dropOffDateTime = dropOffDateTime;
         this.returnDate = returnDate;
+        this.totalAmount = totalAmount;
     }
 
     public Date getCreationDate() {
@@ -48,5 +52,21 @@ public class ReservationDTO {
 
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
+    }
+
+    public String getReservationNumber() {
+        return reservationNumber;
+    }
+
+    public void setReservationNumber(String reservationNumber) {
+        this.reservationNumber = reservationNumber;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
+    }
+
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 }

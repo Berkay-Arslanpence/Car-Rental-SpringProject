@@ -17,7 +17,7 @@ public class RentedCarDTO{
     private int reservationDayCount;
 
     public RentedCarDTO() {super();}
-    public RentedCarDTO(String brand, String model, String carType, String transmissionType, String barcode, String reservationNumber, String memberName, String dropOffDateTime, String dropOffLocation, int reservationDayCount) {
+    public RentedCarDTO(String brand, String model, String carType, String transmissionType, String barcode, String reservationNumber, String memberName, Date dropOffDateTime, String dropOffLocation, int reservationDayCount) {
         super();
         this.brand = brand;
         this.model = model;
