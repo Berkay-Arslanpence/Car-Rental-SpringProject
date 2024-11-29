@@ -5,7 +5,7 @@ import com.rentCar.carRental_app.repo.ServiceRepository;
 
 import java.util.List;
 
-@Services
+
 public class ServiceService {
 
     private final ServiceRepository serviceRepository;
