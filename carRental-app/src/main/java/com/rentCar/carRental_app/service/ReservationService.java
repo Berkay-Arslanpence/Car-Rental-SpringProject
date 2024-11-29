@@ -84,6 +84,7 @@ public class ReservationService {
             reservation.setTotalAmount(calculateTotalAmount(dayCount,c.getDailyPrice(),addiServices,addiEquipments));
             reservationRepository.save(reservation);
             c.setStatus(Car.CarStatus.LOANED);
+            carRepository.save(c);
             return ReservationMapper.ReservationToReservationDTO(reservation);
         }
         else{
@@ -187,6 +188,20 @@ public class ReservationService {
         } catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+    public boolean CancelReservation(String reservationNumber){
+        Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);
+        if(reservation == null){
+            return false;
+        }
+        else{
+            reservation.setStatus(Reservation.Status.CANCELLED);
+            Car  c=reservation.getCar();
+            c.setStatus(Car.CarStatus.AVAILABLE);
+            carRepository.save(c);
+            reservationRepository.save(reservation);
+            return true;
         }
     }
 
