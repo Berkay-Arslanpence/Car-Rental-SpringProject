@@ -25,8 +25,12 @@ public interface CarRepository extends JpaRepository<Car, String> {
     @Query(value="delete from Car c where c.barcode=?")
     int deleteCar(String barcode);
 
+    @Query(value="select c from Car c where c.barcode=?")
+    Car findCarByBarcode(String barcode);
 
-    Car findById(long id);
+    @Query(value="select exists(select 1  from Car c where c.barcode=? and c.status='AVAILABLE')")
+    boolean isAvailable(String barcode);
+
 
     void deleteByBarcodeAndStatus(String barcode, Car.CarStatus status);
 
