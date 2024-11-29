@@ -82,6 +82,7 @@ public class ReservationService {
             reservation.setServiceList(addiServices);
             reservation.setEquipmentList(addiEquipments);
             reservation.setTotalAmount(calculateTotalAmount(dayCount,c.getDailyPrice(),addiServices,addiEquipments));
+            reservation.setReservationNumber(generateReservationNumber());
             reservationRepository.save(reservation);
             c.setStatus(Car.CarStatus.LOANED);
             carRepository.save(c);
@@ -203,6 +204,18 @@ public class ReservationService {
             reservationRepository.save(reservation);
             return true;
         }
+    }
+    public String generateReservationNumber(){
+            // Generate a random 8-digit number
+            int number=(int) (Math.random() * 90000000) + 10000000;
+            String reservationNumber=String.valueOf(number);
+            if(reservationRepository.existsReservationWithNumber(reservationNumber)){
+                return generateReservationNumber();
+            }
+            else{
+                return reservationNumber;
+            }
+
     }
 
 }
