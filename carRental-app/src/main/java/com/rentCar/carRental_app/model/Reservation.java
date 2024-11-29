@@ -19,6 +19,7 @@ public class Reservation {
     private Date pickUpDateTime;
     private Date dropOffDateTime;
     private Date returnDate;
+    private double totalAmount; //HESAPLAMASINI YAZIN
 
     @Enumerated(EnumType.STRING)
     private Status status;
