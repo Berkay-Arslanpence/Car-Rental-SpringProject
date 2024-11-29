@@ -16,7 +16,7 @@ public class CarService {
     @Autowired
      CarRepository carRepository;
 
-    public List<CarDTO> getAvailableCars(String carType, String transmissionType) {
+    public List<CarDTO> searchAvailableCars(String carType, String transmissionType) {
         List<Car> carList = carRepository.searchAvailableCars(carType, transmissionType);
         List<CarDTO> carDTOList = new ArrayList<CarDTO>();
         for (Car car : carList) {
