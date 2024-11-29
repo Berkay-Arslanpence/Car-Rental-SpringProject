@@ -1,6 +1,7 @@
 package com.rentCar.carRental_app.service;
 
 import com.rentCar.carRental_app.dto.CarDTO;
+import com.rentCar.carRental_app.dto.RentedCarDTO;
 import com.rentCar.carRental_app.dto.ReservationDTO;
 import com.rentCar.carRental_app.mapper.CarMapper;
 import com.rentCar.carRental_app.mapper.ReservationMapper;
@@ -19,6 +20,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 public class ReservationService {
@@ -79,5 +82,27 @@ public class ReservationService {
         return null;
     }
 
+    public List<RentedCarDTO> getAllRentedCars(){
+        List<Reservation> reservations=reservationRepository.findAllReservationsWithLoanedOrReservedCars();
+
+        return reservations.stream().map(reservation -> {
+            RentedCarDTO dto = new RentedCarDTO();
+            dto.setBrand(reservation.getCar().getBrand());
+            dto.setModel(reservation.getCar().getModel());
+            dto.setCarType(reservation.getCar().getCarType());
+            dto.setTransmissionType(reservation.getCar().getTransmissionType());
+            dto.setBarcode(reservation.getCar().getBarcode());
+            dto.setReservationNumber(reservation.getReservationNumber());
+            dto.setMemberName(reservation.getMember().getName());
+            dto.setDropOffDateTime(reservation.getDropOffDateTime());
+            dto.setDropOffLocation(reservation.getDropOffLocation().getName());
+
+            long differenceInMillis = Math.abs(reservation.getDropOffDateTime().getTime() - reservation.getPickUpDateTime().getTime());
+            long differenceInDays = TimeUnit.DAYS.convert(differenceInMillis, TimeUnit.MILLISECONDS);
+            dto.setReservationDayCount((int) differenceInDays);
+
+            return dto;
+        }).collect(Collectors.toList());
+    }
 
 }

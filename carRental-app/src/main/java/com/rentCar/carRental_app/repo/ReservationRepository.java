@@ -20,6 +20,14 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
     Reservation findByReservationNumber(String reservationNumber);
 
 
+
+    @Query("SELECT r FROM Reservation r " +
+            "JOIN r.car c " +
+            "JOIN r.member m " +
+            "WHERE c.status = com.rentCar.carRental_app.model.Car.CarStatus.LOANED " +
+            "OR c.status = com.rentCar.carRental_app.model.Car.CarStatus.RESERVED")
+    List<Reservation> findAllReservationsWithLoanedOrReservedCars();
+
 }
 
 

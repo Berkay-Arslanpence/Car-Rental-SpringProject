@@ -1,6 +1,7 @@
 package com.rentCar.carRental_app.service;
 
 import com.rentCar.carRental_app.dto.CarDTO;
+import com.rentCar.carRental_app.dto.RentedCarDTO;
 import com.rentCar.carRental_app.mapper.CarMapper;
 import com.rentCar.carRental_app.model.Car;
 import com.rentCar.carRental_app.repo.CarRepository;
@@ -34,7 +35,5 @@ public class CarService {
             return true;
         }
     }
-
-
 
 }
