@@ -23,9 +23,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
             "OR c.status = com.rentCar.carRental_app.model.Car.CarStatus.RESERVED")
     List<Reservation> findAllReservationsWithLoanedOrReservedCars();
 
-    @Query(value="delete from Reservation r where r.reservationNumber=?")
+    @Query(value="delete from Reservation r where r.reservationNumber= :reservationNumber")
     int deleteReservation(String reservationNumber);
-
 
 }
 

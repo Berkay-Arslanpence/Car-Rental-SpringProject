@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface LocationRepository extends JpaRepository<Location, Long> {
     // Fetch a location by its unique code
-    @Query(value="select l from Location l where l.code=?")
+    @Query(value="select l from Location l where l.code= :code")
     Location findByCode(String code);
 }

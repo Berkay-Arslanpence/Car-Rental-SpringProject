@@ -18,26 +18,26 @@ public interface CarRepository extends JpaRepository<Car, String> {
     @Query(value="select c from Car c where c.status='LOANED' or c.status='RESERVED'")
     List<Car> getAllRentedCars();
 
-    @Query(value="select not exists(select 1 from Reservation r where r.car.barcode=? and exists( select 1 from Car c where c.barcode=? and c.status='AVAILABLE'))")
+    @Query(value="select not exists(select 1 from Reservation r where r.car.barcode= :barcode and exists( select 1 from Car c where c.barcode= :barcode and c.status='AVAILABLE'))")
     boolean isCarUsedInReservation(String barcode);
 
-    @Query(value="delete from Car c where c.barcode=?")
+    @Query(value="delete from Car c where c.barcode= :barcode")
     int deleteCar(String barcode);
 
-    @Query(value="select c from Car c where c.barcode=?")
+    @Query(value="select c from Car c where c.barcode= :barcode")
     Car findCarByBarcode(String barcode);
 
-    @Query(value="select exists(select 1  from Car c where c.barcode=? and c.status='AVAILABLE')")
+    @Query(value="select exists(select 1  from Car c where c.barcode= :barcode and c.status='AVAILABLE')")
     boolean isAvailable(String barcode);
 
 
     void deleteByBarcodeAndStatus(String barcode, Car.CarStatus status);
 
-    @Query("select c from Car c where c.status='AVAILABLE' and c.carType=?1 and c.transmissionType=?2 ")
+    @Query("select c from Car c where c.status='AVAILABLE' and c.carType= :carType and c.transmissionType= :transmissionType ")
     List<Car> searchAvailableCars(String carType, String transmissionType);
 
     @Transactional
     @Modifying
-    @Query("update Car c set c.status = com.rentCar.carRental_app.model.Car.CarStatus.AVAILABLE where c.barcode = ?1")
+    @Query("update Car c set c.status = com.rentCar.carRental_app.model.Car.CarStatus.AVAILABLE where c.barcode = :barcode")
     int updateCarStatusToAvailable(String barcode);
 }
