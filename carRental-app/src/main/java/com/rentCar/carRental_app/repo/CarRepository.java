@@ -12,14 +12,11 @@ import java.util.List;
 @Repository
 public interface CarRepository extends JpaRepository<Car, String> {
 
-    List<Car> findByCarTypeAndTransmissionTypeAndStatus(String carType, String transmissionType, Car.CarStatus status);
-
-
     @Query(value="select c from Car c where c.status='LOANED' or c.status='RESERVED'")
     List<Car> getAllRentedCars();
 
     @Query(value="select not exists(select 1 from Reservation r where r.car.barcode= :barcode and exists( select 1 from Car c where c.barcode= :barcode and c.status='AVAILABLE'))")
-    boolean isCarUsedInReservation(String barcode);
+    boolean isCarDeletable(String barcode);
 
     @Query(value="delete from Car c where c.barcode= :barcode")
     int deleteCar(String barcode);

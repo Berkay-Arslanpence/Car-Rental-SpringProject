@@ -1,7 +1,6 @@
 package com.rentCar.carRental_app.service;
 
 import com.rentCar.carRental_app.dto.CarDTO;
-import com.rentCar.carRental_app.dto.RentedCarDTO;
 import com.rentCar.carRental_app.mapper.CarMapper;
 import com.rentCar.carRental_app.model.Car;
 import com.rentCar.carRental_app.repo.CarRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -27,7 +25,7 @@ public class CarService {
     }
 
     public boolean deleteCarByBarcode(String barcode) {
-        if(!carRepository.isCarUsedInReservation(barcode)){
+        if(!carRepository.isCarDeletable(barcode)){
             return false;
         }
         else{
