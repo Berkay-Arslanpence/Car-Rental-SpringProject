@@ -12,8 +12,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Reservation {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //2.submissionda bir methodla random String oluşturularak yapılacak
+    @Id//2.submissionda bir methodla random String oluşturularak yapılacak
     private String reservationNumber;
     private Date creationDate;
     private Date pickUpDateTime;

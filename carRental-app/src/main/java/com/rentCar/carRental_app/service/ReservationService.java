@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -65,14 +66,13 @@ public class ReservationService {
             return false;
         }
     }
-    public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<Equipment> addiEquipments, List<Services>addiServices){
-        Car c=carRepository.findCarByBarcode(carBarcode);
-        if(carRepository.isAvailable(carBarcode)){
-            Reservation reservation=new Reservation(
-
-                    Date.from(Instant.from(LocalDateTime.now())),
-                    Date.from(Instant.from(LocalDateTime.now().plusDays(1))),
-                    Date.from(Instant.from(LocalDateTime.now().plusDays(1+dayCount))),
+    public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<Equipment> addiEquipments, List<Services> addiServices) {
+        Car c = carRepository.findCarByBarcode(carBarcode);
+        if (carRepository.isAvailable(carBarcode)) {
+            Reservation reservation = new Reservation(
+                    Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
+                    Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()),
+                    Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
                     null,
                     locationRepository.findByCode(pickUpLocCode),
                     locationRepository.findByCode(dropOffLocCode),
@@ -81,19 +81,18 @@ public class ReservationService {
             reservation.setStatus(Reservation.Status.PENDING);
             reservation.setServiceList(addiServices);
             reservation.setEquipmentList(addiEquipments);
-            reservation.setTotalAmount(calculateTotalAmount(dayCount,c.getDailyPrice(),addiServices,addiEquipments));
+            reservation.setTotalAmount(calculateTotalAmount(dayCount, c.getDailyPrice(), addiServices, addiEquipments));
             reservation.setReservationNumber(generateReservationNumber());
             reservationRepository.save(reservation);
             c.setStatus(Car.CarStatus.LOANED);
             carRepository.save(c);
             return ReservationMapper.ReservationToReservationDTO(reservation);
+        } else {
+            System.out.println("Reservation Failed!, The car is not available");
         }
-        else{
-            System.out.println("Reservation Failed!,The car is not available");
-        }
-
         return null;
     }
+
 
     public List<RentedCarDTO> getAllRentedCars(){
         List<Reservation> reservations=reservationRepository.findAllReservationsWithLoanedOrReservedCars();

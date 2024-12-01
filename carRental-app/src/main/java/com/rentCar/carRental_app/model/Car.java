@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String barcode;
 
     private String licensePlate;
-    private String barcode;
+
     private String brand;
     private String model;
     private String transmissionType;
@@ -27,14 +26,6 @@ public class Car {
 
     public enum CarStatus {
         AVAILABLE, RESERVED, LOANED, LOST, BEING_SERVICED
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getLicensePlate() {

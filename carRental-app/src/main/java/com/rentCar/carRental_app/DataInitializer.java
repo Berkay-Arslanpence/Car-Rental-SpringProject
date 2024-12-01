@@ -2,10 +2,12 @@ package com.rentCar.carRental_app;
 
 import com.rentCar.carRental_app.model.*;
 import com.rentCar.carRental_app.repo.*;
+import com.rentCar.carRental_app.service.ReservationService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -13,14 +15,23 @@ public class DataInitializer {
 
     @Bean
     CommandLineRunner initDatabase(
-            CarRepository carRepository,
+            ReservationService reservationService,
             MemberRepository memberRepository,
             LocationRepository locationRepository,
+            ReservationRepository reservationRepository,
             EquipmentRepository equipmentRepository,
-            ServiceRepository serviceRepository
-    ) {
+            ServiceRepository serviceRepository,
+            CarRepository carRepository) {
         return args -> {
-            // Add sample members
+            // Step 1: Clear existing data
+            reservationRepository.deleteAll();
+            memberRepository.deleteAll();
+            locationRepository.deleteAll();
+            carRepository.deleteAll();
+            equipmentRepository.deleteAll();
+            serviceRepository.deleteAll();
+
+            // Step 2: Add sample members
             Member member1 = new Member();
             member1.setName("John Doe");
             member1.setAddress("123 Main St");
@@ -37,7 +48,7 @@ public class DataInitializer {
 
             memberRepository.saveAll(List.of(member1, member2));
 
-            // Add sample cars
+            // Step 3: Add sample cars
             Car car1 = new Car();
             car1.setBarcode("CAR001");
             car1.setBrand("Toyota");
@@ -58,7 +69,7 @@ public class DataInitializer {
 
             carRepository.saveAll(List.of(car1, car2));
 
-            // Add sample locations
+            // Step 4: Add sample locations
             Location location1 = new Location();
             location1.setCode("LOC001");
             location1.setName("Istanbul Airport");
@@ -71,7 +82,7 @@ public class DataInitializer {
 
             locationRepository.saveAll(List.of(location1, location2));
 
-            // Add sample equipment
+            // Step 5: Add sample equipment
             Equipment equipment1 = new Equipment();
             equipment1.setName("Snow Tyres");
             equipment1.setPrice(20.0);
@@ -82,7 +93,7 @@ public class DataInitializer {
 
             equipmentRepository.saveAll(List.of(equipment1, equipment2));
 
-            // Add sample services
+            // Step 6: Add sample services
             Services service1 = new Services();
             service1.setName("Roadside Assistance");
             service1.setPrice(25.0);
@@ -92,6 +103,19 @@ public class DataInitializer {
             service2.setPrice(30.0);
 
             serviceRepository.saveAll(List.of(service1, service2));
+
+            // Step 7: Create reservation using ReservationService
+            List<Equipment> equipmentList = List.of(equipment1, equipment2);
+            List<Services> serviceList = List.of(service1, service2);
+            reservationService.makeReservation(
+                    car1.getBarcode(),
+                    5,
+                    member1.getId(),
+                    location1.getCode(),
+                    location2.getCode(),
+                    equipmentList,
+                    serviceList
+            );
 
             System.out.println("Database initialized with sample data.");
         };
