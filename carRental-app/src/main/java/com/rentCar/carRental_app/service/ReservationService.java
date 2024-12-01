@@ -74,7 +74,7 @@ public class ReservationService {
                     Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
                     Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()),
                     Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
-                    null,
+                    Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
                     locationRepository.findByCode(pickUpLocCode),
                     locationRepository.findByCode(dropOffLocCode),
                     memberRepository.findMemById(memId)

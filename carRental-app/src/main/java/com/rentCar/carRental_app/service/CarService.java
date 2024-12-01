@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class CarService {
     @Autowired
-     CarRepository carRepository;
+    CarRepository carRepository;
 
     public List<CarDTO> searchAvailableCars(String carType, String transmissionType) {
         List<Car> carList = carRepository.searchAvailableCars(carType, transmissionType);

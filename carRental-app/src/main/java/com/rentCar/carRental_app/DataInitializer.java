@@ -1,5 +1,7 @@
 package com.rentCar.carRental_app;
 
+import com.rentCar.carRental_app.dto.ReservationDTO;
+import com.rentCar.carRental_app.mapper.ReservationMapper;
 import com.rentCar.carRental_app.model.*;
 import com.rentCar.carRental_app.repo.*;
 import com.rentCar.carRental_app.service.ReservationService;
@@ -7,7 +9,10 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Configuration
@@ -69,9 +74,9 @@ public class DataInitializer {
             car2.setCarType("Standard");
             car2.setDailyPrice(70.0);
             car2.setStatus(Car.CarStatus.AVAILABLE);
-            car1.setLicensePlate("91SK293");
-            car1.setPassengerCapacity(4);
-            car1.setMileage(15000.0);
+            car2.setLicensePlate("91SK293");
+            car2.setPassengerCapacity(4);
+            car2.setMileage(15000.0);
 
             carRepository.saveAll(List.of(car1, car2));
 
@@ -122,7 +127,6 @@ public class DataInitializer {
                     equipmentList,
                     serviceList
             );
-
             System.out.println("Database initialized with sample data.");
         };
     }
