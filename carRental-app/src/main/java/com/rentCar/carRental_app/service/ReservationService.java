@@ -10,6 +10,7 @@ import com.rentCar.carRental_app.model.Equipment;
 import com.rentCar.carRental_app.model.Reservation;
 import com.rentCar.carRental_app.model.Services;
 import com.rentCar.carRental_app.repo.*;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -122,6 +123,7 @@ public class ReservationService {
         try{
             reservationRepository.deleteReservation(reservationNumber);
         } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
             return false;
         }
             return true;
@@ -141,6 +143,7 @@ public class ReservationService {
 
     }
 
+    @Transactional
     public boolean AddAdditionalService(String reservationNumber, long serviceId){
         try{
             Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);
@@ -167,6 +170,7 @@ public class ReservationService {
         }
     }
 
+    @Transactional
     public boolean AddAdditionalEquipment(String reservationNumber, long equipmentId){
         try {
             Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);

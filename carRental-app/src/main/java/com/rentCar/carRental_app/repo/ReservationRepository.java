@@ -2,6 +2,7 @@ package com.rentCar.carRental_app.repo;
 
 import com.rentCar.carRental_app.model.Equipment;
 import com.rentCar.carRental_app.model.Reservation;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,8 +24,10 @@ public interface ReservationRepository extends JpaRepository<Reservation, String
             "OR c.status = com.rentCar.carRental_app.model.Car.CarStatus.RESERVED")
     List<Reservation> findAllReservationsWithLoanedOrReservedCars();
 
+    @Modifying
+    @Transactional
     @Query(value="delete from Reservation r where r.reservationNumber=:reservationNumber")
-    boolean deleteReservation(String reservationNumber);
+    int deleteReservation(String reservationNumber);
 
     @Query(value="select exists(select 1 from Reservation r where r.reservationNumber=:reservationNumber)")
     boolean existsReservationWithNumber(String reservationNumber);

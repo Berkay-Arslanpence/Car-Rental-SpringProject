@@ -16,6 +16,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertSame;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -48,10 +50,18 @@ class ReservationTest {
 
     @Autowired
     ReservationService reservationServiceNM;
+
+    @Autowired
+    ReservationRepository reservationRepositoryNM;
+
     @Autowired
     private ServiceService serviceService;
     @Autowired
     private EquipmentService equipmentService;
+
+    @Autowired
+    private EquipmentRepository equipmentRepositoryNM;;
+
 
     @Test
     void testReturnCar() {
@@ -81,9 +91,9 @@ class ReservationTest {
     void testDeleteReservationByReservationNumber() {
         ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
         Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
-        reservationRepository.save(reservation);
+        reservationRepositoryNM.save(reservation);
 
-        boolean result = reservationService.deleteReservationByReservationNumber(reservation.getReservationNumber());
+        boolean result = reservationServiceNM.deleteReservationByReservationNumber(reservation.getReservationNumber());
 
         assertThat(result).isTrue();
     }
@@ -92,28 +102,27 @@ class ReservationTest {
     void testAddAdditionalService() {
         ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
         Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
-        reservationRepository.save(reservation);
+        reservationRepositoryNM.save(reservation);
         System.out.println(reservation);
-        Services service = ServiceMapper.serviceDTOToService(new ServiceDTO("Towing Service", 100));
+        Services service = new Services();
         serviceRepositoryNM.save(service);
 
         boolean result = reservationServiceNM.AddAdditionalService(reservation.getReservationNumber(), service.getId());
 
         assertThat(result).isTrue();
-        verify(reservationRepository, times(1)).save(reservation);
     }
 
     @Test
     void testAddAdditionalEquipment() {
-        Reservation reservation = new Reservation();
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
+        Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
+        reservationRepositoryNM.save(reservation);
         Equipment equipment = new Equipment();
-        when(reservationRepository.findByReservationNumber("RES123")).thenReturn(reservation);
-        when(equipmentRepository.findById(1L)).thenReturn(equipment);
+        equipmentRepositoryNM.save(equipment);
 
-        boolean result = reservationService.AddAdditionalEquipment("RES123", 1L);
+        boolean result = reservationServiceNM.AddAdditionalEquipment(reservation.getReservationNumber(), equipment.getId());
 
         assertThat(result).isTrue();
-        verify(reservationRepository, times(1)).save(reservation);
     }
 
     @Test
@@ -125,7 +134,8 @@ class ReservationTest {
 
         boolean result = reservationService.CancelReservation("RES123");
 
-        assertThat(result).isTrue();
+        assertTrue(result);
+        assertSame(Car.CarStatus.AVAILABLE, reservation.getCar().getStatus());
         verify(reservationRepository, times(1)).save(reservation);
         verify(carRepository, times(1)).save(car);
     }
