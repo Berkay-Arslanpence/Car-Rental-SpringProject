@@ -78,6 +78,7 @@ public class ReservationService {
                     locationRepository.findByCode(dropOffLocCode),
                     memberRepository.findMemById(memId)
             );
+            reservation.setCar(c);
             reservation.setStatus(Reservation.Status.PENDING);
             reservation.setServiceList(addiServices);
             reservation.setEquipmentList(addiEquipments);
