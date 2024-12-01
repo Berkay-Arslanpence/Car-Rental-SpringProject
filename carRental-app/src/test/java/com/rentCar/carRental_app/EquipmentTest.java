@@ -27,7 +27,6 @@ class EquipmentTest {
     void testGetAllEquipment() {
         Equipment equipment = new Equipment();
         equipment.setName("GPS");
-        equipment.setId(1L);
         when(equipmentRepository.findAll()).thenReturn(Arrays.asList(equipment));
 
         List<Equipment> result = equipmentService.getAllEquipment();
@@ -41,7 +40,6 @@ class EquipmentTest {
     void testGetEquipmentByName() {
         Equipment equipment = new Equipment();
         equipment.setName("GPS");
-        equipment.setId(1L);
         when(equipmentRepository.findByName("GPS")).thenReturn(equipment);
 
         Equipment result = equipmentService.getEquipmentByName("GPS");

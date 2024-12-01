@@ -56,7 +56,7 @@ public class ReservationService {
 
         try{
             reservation.setStatus(Reservation.Status.COMPLETED);
-            reservation.setReturnDate(Date.from(Instant.from(LocalDateTime.now())));
+            reservation.setReturnDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
             reservationRepository.save(reservation);
 
             carRepository.updateCarStatusToAvailable(car.getBarcode());
