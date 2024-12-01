@@ -57,6 +57,9 @@ public class DataInitializer {
             car1.setCarType("Economy");
             car1.setDailyPrice(50.0);
             car1.setStatus(Car.CarStatus.AVAILABLE);
+            car1.setLicensePlate("10BM971");
+            car1.setPassengerCapacity(4);
+            car1.setMileage(10000.0);
 
             Car car2 = new Car();
             car2.setBarcode("CAR002");
@@ -66,6 +69,9 @@ public class DataInitializer {
             car2.setCarType("Standard");
             car2.setDailyPrice(70.0);
             car2.setStatus(Car.CarStatus.AVAILABLE);
+            car1.setLicensePlate("91SK293");
+            car1.setPassengerCapacity(4);
+            car1.setMileage(15000.0);
 
             carRepository.saveAll(List.of(car1, car2));
 
