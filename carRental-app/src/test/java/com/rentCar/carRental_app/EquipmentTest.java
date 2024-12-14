@@ -1,6 +1,7 @@
 package com.rentCar.carRental_app;
 
 import com.rentCar.carRental_app.model.Equipment;
+import com.rentCar.carRental_app.dto.EquipmentDTO;
 import com.rentCar.carRental_app.service.EquipmentService;
 import com.rentCar.carRental_app.repo.EquipmentRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +30,7 @@ class EquipmentTest {
         equipment.setName("GPS");
         when(equipmentRepository.findAll()).thenReturn(Arrays.asList(equipment));
 
-        List<Equipment> result = equipmentService.getAllEquipment();
+        List<EquipmentDTO> result = equipmentService.getAllEquipment();
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getName()).isEqualTo("GPS");
@@ -42,7 +43,7 @@ class EquipmentTest {
         equipment.setName("GPS");
         when(equipmentRepository.findByName("GPS")).thenReturn(equipment);
 
-        Equipment result = equipmentService.getEquipmentByName("GPS");
+        EquipmentDTO result = equipmentService.getEquipmentByName("GPS");
 
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("GPS");

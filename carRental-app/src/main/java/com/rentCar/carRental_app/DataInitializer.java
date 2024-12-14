@@ -4,7 +4,9 @@ import com.rentCar.carRental_app.dto.ReservationDTO;
 import com.rentCar.carRental_app.mapper.ReservationMapper;
 import com.rentCar.carRental_app.model.*;
 import com.rentCar.carRental_app.repo.*;
+import com.rentCar.carRental_app.service.CarService;
 import com.rentCar.carRental_app.service.ReservationService;
+import com.rentCar.carRental_app.dto.CarDTO;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +28,7 @@ public class DataInitializer {
             ReservationRepository reservationRepository,
             EquipmentRepository equipmentRepository,
             ServiceRepository serviceRepository,
-            CarRepository carRepository) {
+            CarRepository carRepository, CarService carService) {
         return args -> {
             // Step 1: Clear existing data
             reservationRepository.deleteAll();
@@ -102,7 +104,11 @@ public class DataInitializer {
             equipment2.setName("Baby Seat");
             equipment2.setPrice(15.0);
 
-            equipmentRepository.saveAll(List.of(equipment1, equipment2));
+            Equipment equipment3 = new Equipment();
+            equipment2.setName("Additional Baggage");
+            equipment2.setPrice(12.0);
+
+            equipmentRepository.saveAll(List.of(equipment1, equipment2, equipment3));
 
             // Step 6: Add sample services
             Services service1 = new Services();
@@ -113,7 +119,11 @@ public class DataInitializer {
             service2.setName("Additional Driver");
             service2.setPrice(30.0);
 
-            serviceRepository.saveAll(List.of(service1, service2));
+            Services service3 = new Services();
+            service3.setName("Towing Service");
+            service3.setPrice(20.0);
+
+            serviceRepository.saveAll(List.of(service1, service2,service3));
 
             // Step 7: Create reservation using ReservationService
             List<Equipment> equipmentList = List.of(equipment1, equipment2);
@@ -128,6 +138,11 @@ public class DataInitializer {
                     serviceList
             );
             System.out.println("Database initialized with sample data.");
+            List<CarDTO> l=carService.searchAvailableCars("SUV","Automatic");
+            for(int i=0;i<l.size();i++){
+                System.out.println(l.get(i).getBrand());
+            }
         };
+
     }
 }

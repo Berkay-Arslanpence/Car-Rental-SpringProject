@@ -9,17 +9,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
+
     @Autowired
-    MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
     public MemberDTO getMemberById(Long id) {
-        return MemberMapper.MemberToMemberDTO(memberRepository.findMemById(id));
-   }
-
+        Member member = memberRepository.findMemById(id);
+        return member != null ? MemberMapper.MemberToMemberDTO(member) : null;
+    }
 
     public MemberDTO saveMember(MemberDTO memberDTO) {
         Member member = MemberMapper.MemberDTOToMember(memberDTO);
-        memberRepository.save(member);
-        return memberDTO;
+        member = memberRepository.save(member);
+        return MemberMapper.MemberToMemberDTO(member);
     }
 }

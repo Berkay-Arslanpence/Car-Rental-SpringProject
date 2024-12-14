@@ -22,9 +22,4 @@ public class MemberController {
         return ResponseEntity.ok(member);
     }
 
-    @PostMapping
-    public ResponseEntity<MemberDTO> createOrUpdateMember(@RequestBody MemberDTO memberDTO) {
-        MemberDTO updatedMember = memberService.saveMember(memberDTO);
-        return ResponseEntity.ok(updatedMember);
-    }
 }

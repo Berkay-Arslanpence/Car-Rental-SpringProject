@@ -1,5 +1,5 @@
 package com.rentCar.carRental_app.controller;
-
+import com.rentCar.carRental_app.dto.ServiceDTO;
 import com.rentCar.carRental_app.model.Services;
 import com.rentCar.carRental_app.service.ServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ public class ServiceController {
     private ServiceService serviceService;
 
     @GetMapping
-    public ResponseEntity<List<Services>> getAllServices() {
+    public ResponseEntity<List<ServiceDTO>> getAllServices() {
         return ResponseEntity.ok(serviceService.getAllServices());
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<Services> getServiceByName(@PathVariable String name) {
-        Services service = serviceService.getServiceByName(name);
+    public ResponseEntity<ServiceDTO> getServiceByName(@PathVariable String name) {
+        ServiceDTO service = serviceService.getServiceByName(name);
         if (service == null) {
             return ResponseEntity.notFound().build();
         }

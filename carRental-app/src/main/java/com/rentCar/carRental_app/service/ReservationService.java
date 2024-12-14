@@ -55,17 +55,17 @@ public class ReservationService {
             return false;
         }
 
-        try{
+        //try{
             reservation.setStatus(Reservation.Status.COMPLETED);
             reservation.setReturnDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
             reservationRepository.save(reservation);
 
             carRepository.updateCarStatusToAvailable(car.getBarcode());
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return false;
-        }
+        //} catch (Exception e) {
+          //  e.printStackTrace();
+        //    return false;
+        //}
     }
     public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<Equipment> addiEquipments, List<Services> addiServices) {
         Car c = carRepository.findCarByBarcode(carBarcode);
@@ -120,12 +120,17 @@ public class ReservationService {
     }
 
     public boolean deleteReservationByReservationNumber(String reservationNumber) {
-        try{
+
+            Reservation reservation = reservationRepository.findByReservationNumber(reservationNumber);
+            if(reservation == null){
+                return false;
+            }
+            Car c=reservation.getCar();
+            if(c==null){
+                return false;
+            }
             reservationRepository.deleteReservation(reservationNumber);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return false;
-        }
+            c.setStatus(Car.CarStatus.AVAILABLE);
             return true;
     }
 

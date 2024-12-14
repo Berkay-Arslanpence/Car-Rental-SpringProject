@@ -12,12 +12,17 @@ import java.util.List;
 
 @Service
 public class CarService {
+
+    private final CarRepository carRepository;
+
     @Autowired
-    CarRepository carRepository;
+    public CarService(CarRepository carRepository) {
+        this.carRepository = carRepository;
+    }
 
     public List<CarDTO> searchAvailableCars(String carType, String transmissionType) {
         List<Car> carList = carRepository.searchAvailableCars(carType, transmissionType);
-        List<CarDTO> carDTOList = new ArrayList<CarDTO>();
+        List<CarDTO> carDTOList = new ArrayList<>();
         for (Car car : carList) {
             carDTOList.add(CarMapper.CarToCarDTO(car));
         }
@@ -25,13 +30,10 @@ public class CarService {
     }
 
     public boolean deleteCarByBarcode(String barcode) {
-        if(!carRepository.isCarDeletable(barcode)){
+        if (!carRepository.isCarDeletable(barcode)) {
             return false;
         }
-        else{
-            carRepository.deleteCar(barcode);
-            return true;
-        }
+        carRepository.deleteCar(barcode);
+        return true;
     }
-
 }

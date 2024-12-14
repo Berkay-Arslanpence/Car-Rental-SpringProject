@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/reservations")
 public class ReservationController {
+
     @Autowired
     private ReservationService reservationService;
 
@@ -27,17 +28,15 @@ public class ReservationController {
                                                           @RequestParam List<Equipment> addiEquipments) {
         ReservationDTO reservation = reservationService.makeReservation(
                 carBarcode, dayCount, memberId, pickupLocationCode, dropOffLocationCode,
-                addiEquipments,addiServices);
-
+                addiEquipments, addiServices);
 
         if (reservation == null) {
             return ResponseEntity.status(406).build(); // Not Acceptable
         }
-        System.out.println("MERHABALAAAAAAAAAAAAAAAAAAAAARR");
         return ResponseEntity.ok(reservation);
     }
 
-    @GetMapping("/rented")
+    @GetMapping("/rentedCars")
     public ResponseEntity<List<RentedCarDTO>> getAllRentedCars() {
         List<RentedCarDTO> rentedCars = reservationService.getAllRentedCars();
         if (rentedCars.isEmpty()) {
@@ -46,10 +45,50 @@ public class ReservationController {
         return ResponseEntity.ok(rentedCars);
     }
 
-    @PutMapping("/{reservationNumber}/return")
+    @PutMapping("/{reservationNumber}/returnCar")
     public ResponseEntity<Void> returnCar(@PathVariable String reservationNumber) {
         boolean isReturned = reservationService.returnCar(reservationNumber);
         if (isReturned) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(404).build(); // Not Found
+        }
+    }
+
+    @DeleteMapping("/{reservationNumber}")
+    public ResponseEntity<Void> deleteReservation(@PathVariable String reservationNumber) {
+        boolean isDeleted = reservationService.deleteReservationByReservationNumber(reservationNumber);
+        if (isDeleted) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(404).build(); // Not Found
+        }
+    }
+
+    @PutMapping("/{reservationNumber}/cancel")
+    public ResponseEntity<Void> cancelReservation(@PathVariable String reservationNumber) {
+        boolean isCancelled = reservationService.CancelReservation(reservationNumber);
+        if (isCancelled) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(404).build(); // Not Found
+        }
+    }
+
+    @PutMapping("/{reservationNumber}/addService/{serviceId}")
+    public ResponseEntity<Void> addAdditionalService(@PathVariable String reservationNumber, @PathVariable long serviceId) {
+        boolean isAdded = reservationService.AddAdditionalService(reservationNumber, serviceId);
+        if (isAdded) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(404).build(); // Not Found
+        }
+    }
+
+    @PutMapping("/{reservationNumber}/addEquipment/{equipmentId}")
+    public ResponseEntity<Void> addAdditionalEquipment(@PathVariable String reservationNumber, @PathVariable long equipmentId) {
+        boolean isAdded = reservationService.AddAdditionalEquipment(reservationNumber, equipmentId);
+        if (isAdded) {
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(404).build(); // Not Found
