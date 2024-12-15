@@ -13,6 +13,7 @@ public class MemberService {
     @Autowired
     private MemberRepository memberRepository;
 
+
     public MemberDTO getMemberById(Long id) {
         Member member = memberRepository.findMemById(id);
         return member != null ? MemberMapper.MemberToMemberDTO(member) : null;
@@ -23,4 +24,5 @@ public class MemberService {
         member = memberRepository.save(member);
         return MemberMapper.MemberToMemberDTO(member);
     }
+
 }

@@ -99,6 +99,14 @@ public class ReservationService {
 
         }
           else {
+              if(c==null)
+                  System.out.println("car is null");
+              if(m==null)
+                  System.out.println("member is null");
+              if(pickL==null)
+                  System.out.println("car is null");
+              if(dropL==null)
+                  System.out.println("car is null");
               return null;
         }
 

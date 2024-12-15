@@ -14,6 +14,7 @@ import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -62,6 +63,8 @@ class ReservationTest {
 
     @Autowired
     private EquipmentRepository equipmentRepositoryNM;;
+    @Autowired
+    private MemberRepository memberRepositoryNM;;
 
 
     @Test
@@ -83,56 +86,176 @@ class ReservationTest {
 
     @Test
     void testMakeReservation() {
-        ReservationDTO result = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
-                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
-                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
-        reservationRepository.save(ReservationMapper.ReservationDTOToReservation(result));
+        // Create and save a member
+        Member member = new Member();
+        member.setName("John Doe");
+        member.setEmail("johndoe@example.com");
+        member.setPhone("1234567890");
+        memberRepositoryNM.save(member);
+
+        // Create and save a list of equipment
+        List<Equipment> equipmentList = new ArrayList<>();
+        Equipment equipment1 = new Equipment();
+        equipment1.setName("GPS");
+        equipment1.setPrice(10.0);
+        equipmentRepositoryNM.save(equipment1);
+        equipmentList.add(equipment1);
+
+        // Create and save a list of services
+        List<Services> serviceList = new ArrayList<>();
+        Services service1 = new Services();
+        service1.setName("Insurance");
+        service1.setPrice(50.0);
+        serviceRepositoryNM.save(service1);
+        serviceList.add(service1);
+
+        // Make reservation
+        ReservationDTO result = reservationServiceNM.makeReservation(
+                "CAR002",
+                5,
+                member.getId(),
+                "LOC001",
+                "LOC002",
+                equipmentList,
+                serviceList
+        );
         assertThat(result).isNotNull();
     }
 
     @Test
     void testDeleteReservationByReservationNumber() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
-                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
-                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
-        Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
-        reservationRepositoryNM.save(reservation);
+        // Create and save a member
+        Member member = new Member();
+        member.setName("Jane Doe");
+        member.setEmail("janedoe@example.com");
+        member.setPhone("0987654321");
+        memberRepositoryNM.save(member);
 
-        boolean result = reservationServiceNM.deleteReservationByReservationNumber(reservation.getReservationNumber());
+        // Create and save a list of equipment
+        List<Equipment> equipmentList = new ArrayList<>();
+        Equipment equipment1 = new Equipment();
+        equipment1.setName("Child Seat");
+        equipment1.setPrice(15.0);
+        equipmentRepositoryNM.save(equipment1);
+        equipmentList.add(equipment1);
 
+        // Create and save a list of services
+        List<Services> serviceList = new ArrayList<>();
+        Services service1 = new Services();
+        service1.setName("Roadside Assistance");
+        service1.setPrice(30.0);
+        serviceRepositoryNM.save(service1);
+        serviceList.add(service1);
+
+        // Make reservation
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation(
+                "CAR002",
+                5,
+                member.getId(),
+                "LOC001",
+                "LOC002",
+                equipmentList,
+                serviceList
+        );
+        //Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
+        //reservationRepositoryNM.save(reservation);
+
+        boolean result = reservationServiceNM.deleteReservationByReservationNumber(reservationDTO.getReservationNumber());
         assertThat(result).isTrue();
     }
 
     @Test
     void testAddAdditionalService() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
-                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
-                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
-        Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
-        reservationRepositoryNM.save(reservation);
-        System.out.println(reservation);
-        Services service = new Services();
-        serviceRepositoryNM.save(service);
+        // Create and save a member
+        Member member = new Member();
+        member.setName("Sam Smith");
+        member.setEmail("samsmith@example.com");
+        member.setPhone("5678901234");
+        memberRepositoryNM.save(member);
 
-        boolean result = reservationServiceNM.AddAdditionalService(reservation.getReservationNumber(), service.getId());
+        // Create and save a list of equipment
+        List<Equipment> equipmentList = new ArrayList<>();
+        Equipment equipment1 = new Equipment();
+        equipment1.setName("Roof Box");
+        equipment1.setPrice(20.0);
+        equipmentRepositoryNM.save(equipment1);
+        equipmentList.add(equipment1);
 
+        // Create and save a list of services
+        List<Services> serviceList = new ArrayList<>();
+        Services service1 = new Services();
+        service1.setName("Additional Driver");
+        service1.setPrice(40.0);
+        serviceRepositoryNM.save(service1);
+        serviceList.add(service1);
+
+        // Make reservation
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation(
+                "CAR002",
+                5,
+                member.getId(),
+                "LOC001",
+                "LOC002",
+                equipmentList,
+                serviceList
+        );
+
+        // Add additional service
+        Services additionalService = new Services();
+        additionalService.setName("Full Coverage");
+        additionalService.setPrice(60.0);
+        serviceRepositoryNM.save(additionalService);
+
+        boolean result = reservationServiceNM.AddAdditionalService(reservationDTO.getReservationNumber(), additionalService.getId());
         assertThat(result).isTrue();
     }
 
     @Test
     void testAddAdditionalEquipment() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
-        EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
-        ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
-        Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
-        reservationRepositoryNM.save(reservation);
-        Equipment equipment = new Equipment();
-        equipmentRepositoryNM.save(equipment);
+        // Create and save a member
+        Member member = new Member();
+        member.setName("Alice Brown");
+        member.setEmail("alicebrown@example.com");
+        member.setPhone("8765432109");
+        memberRepositoryNM.save(member);
 
-        boolean result = reservationServiceNM.AddAdditionalEquipment(reservation.getReservationNumber(), equipment.getId());
+        // Create and save a list of equipment
+        List<Equipment> equipmentList = new ArrayList<>();
+        Equipment equipment1 = new Equipment();
+        equipment1.setName("Snow Chains");
+        equipment1.setPrice(25.0);
+        equipmentRepositoryNM.save(equipment1);
+        equipmentList.add(equipment1);
 
+        // Create and save a list of services
+        List<Services> serviceList = new ArrayList<>();
+        Services service1 = new Services();
+        service1.setName("Navigation System");
+        service1.setPrice(35.0);
+        serviceRepositoryNM.save(service1);
+        serviceList.add(service1);
+
+        // Make reservation
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation(
+                "CAR002",
+                5,
+                member.getId(),
+                "LOC001",
+                "LOC002",
+                equipmentList,
+                serviceList
+        );
+
+        // Add additional equipment
+        Equipment additionalEquipment = new Equipment();
+        additionalEquipment.setName("Bike Rack");
+        additionalEquipment.setPrice(30.0);
+        equipmentRepositoryNM.save(additionalEquipment);
+
+        boolean result = reservationServiceNM.AddAdditionalEquipment(reservationDTO.getReservationNumber(), additionalEquipment.getId());
         assertThat(result).isTrue();
     }
+
 
     @Test
     void testCancelReservation() {

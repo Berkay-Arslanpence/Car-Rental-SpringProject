@@ -23,12 +23,4 @@ public class EquipmentMapper {
         }
         return equipmentDTOList;
     }
-    public static List<Equipment> EquipmentDTOListToEquipmentList(List<EquipmentDTO> list) {
-        List<Equipment> equipmentList = new ArrayList<>();
-        for(int i=0;i<list.size();i++){
-            equipmentList.add(EquipmentDTOtoEquipment(list.get(i)));
-        }
-        return equipmentList;
-    }
-
 }
