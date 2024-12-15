@@ -126,8 +126,8 @@ public class DataInitializer {
             serviceRepository.saveAll(List.of(service1, service2,service3));
 
             // Step 7: Create reservation using ReservationService
-            List<Equipment> equipmentList = List.of(equipment1, equipment2);
-            List<Services> serviceList = List.of(service1, service2);
+            List<String> equipmentList = List.of(equipment1.getName(), equipment2.getName());
+            List<String> serviceList = List.of(service1.getName(), service2.getName());
             reservationService.makeReservation(
                     car1.getBarcode(),
                     5,

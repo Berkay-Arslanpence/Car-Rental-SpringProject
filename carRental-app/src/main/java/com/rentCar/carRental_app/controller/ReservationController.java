@@ -37,6 +37,26 @@ public class ReservationController {
         return ResponseEntity.ok(reservation);
     }
 
+    /*
+    @PostMapping
+    public ResponseEntity<ReservationDTO> makeReservation(@RequestParam String carBarcode,
+                                                          @RequestParam int dayCount,
+                                                          @RequestParam Long memberId,
+                                                          @RequestParam String pickupLocationCode,
+                                                          @RequestParam String dropOffLocationCode,
+                                                          @RequestBody List<Services> addiServices,
+                                                          @RequestBody List<Equipment> addiEquipments) {
+        ReservationDTO reservation = reservationService.makeReservation(
+                carBarcode, dayCount, memberId, pickupLocationCode, dropOffLocationCode,
+                addiEquipments, addiServices);
+
+        if (reservation == null) {
+            return ResponseEntity.status(406).build(); // Not Acceptable
+        }
+        return ResponseEntity.ok(reservation);
+    }
+     */
+
 
     @GetMapping("/rentedCars")
     public ResponseEntity<List<RentedCarDTO>> getAllRentedCars() {

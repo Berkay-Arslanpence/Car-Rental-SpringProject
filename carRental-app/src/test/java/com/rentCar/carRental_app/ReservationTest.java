@@ -94,20 +94,20 @@ class ReservationTest {
         memberRepositoryNM.save(member);
 
         // Create and save a list of equipment
-        List<Equipment> equipmentList = new ArrayList<>();
+        List<String> equipmentList = new ArrayList<>();
         Equipment equipment1 = new Equipment();
         equipment1.setName("GPS");
         equipment1.setPrice(10.0);
         equipmentRepositoryNM.save(equipment1);
-        equipmentList.add(equipment1);
+        equipmentList.add(equipment1.getName());
 
         // Create and save a list of services
-        List<Services> serviceList = new ArrayList<>();
+        List<String> serviceList = new ArrayList<>();
         Services service1 = new Services();
         service1.setName("Insurance");
         service1.setPrice(50.0);
         serviceRepositoryNM.save(service1);
-        serviceList.add(service1);
+        serviceList.add(service1.getName());
 
         // Make reservation
         ReservationDTO result = reservationServiceNM.makeReservation(
@@ -132,20 +132,20 @@ class ReservationTest {
         memberRepositoryNM.save(member);
 
         // Create and save a list of equipment
-        List<Equipment> equipmentList = new ArrayList<>();
+        List<String> equipmentList = new ArrayList<>();
         Equipment equipment1 = new Equipment();
         equipment1.setName("Child Seat");
         equipment1.setPrice(15.0);
         equipmentRepositoryNM.save(equipment1);
-        equipmentList.add(equipment1);
+        equipmentList.add(equipment1.getName());
 
         // Create and save a list of services
-        List<Services> serviceList = new ArrayList<>();
+        List<String> serviceList = new ArrayList<>();
         Services service1 = new Services();
-        service1.setName("Roadside Assistance");
+        service1.setName("Theft Protection");
         service1.setPrice(30.0);
         serviceRepositoryNM.save(service1);
-        serviceList.add(service1);
+        serviceList.add(service1.getName());
 
         // Make reservation
         ReservationDTO reservationDTO = reservationServiceNM.makeReservation(
@@ -174,20 +174,20 @@ class ReservationTest {
         memberRepositoryNM.save(member);
 
         // Create and save a list of equipment
-        List<Equipment> equipmentList = new ArrayList<>();
+        List<String> equipmentList = new ArrayList<>();
         Equipment equipment1 = new Equipment();
         equipment1.setName("Roof Box");
         equipment1.setPrice(20.0);
         equipmentRepositoryNM.save(equipment1);
-        equipmentList.add(equipment1);
+        equipmentList.add(equipment1.getName());
 
         // Create and save a list of services
-        List<Services> serviceList = new ArrayList<>();
+        List<String> serviceList = new ArrayList<>();
         Services service1 = new Services();
-        service1.setName("Additional Driver");
+        service1.setName("Theft Protection");
         service1.setPrice(40.0);
         serviceRepositoryNM.save(service1);
-        serviceList.add(service1);
+        serviceList.add(service1.getName());
 
         // Make reservation
         ReservationDTO reservationDTO = reservationServiceNM.makeReservation(
@@ -220,20 +220,20 @@ class ReservationTest {
         memberRepositoryNM.save(member);
 
         // Create and save a list of equipment
-        List<Equipment> equipmentList = new ArrayList<>();
+        List<String> equipmentList = new ArrayList<>();
         Equipment equipment1 = new Equipment();
         equipment1.setName("Snow Chains");
         equipment1.setPrice(25.0);
         equipmentRepositoryNM.save(equipment1);
-        equipmentList.add(equipment1);
+        equipmentList.add(equipment1.getName());
 
         // Create and save a list of services
-        List<Services> serviceList = new ArrayList<>();
+        List<String> serviceList = new ArrayList<>();
         Services service1 = new Services();
         service1.setName("Navigation System");
         service1.setPrice(35.0);
         serviceRepositoryNM.save(service1);
-        serviceList.add(service1);
+        serviceList.add(service1.getName());
 
         // Make reservation
         ReservationDTO reservationDTO = reservationServiceNM.makeReservation(

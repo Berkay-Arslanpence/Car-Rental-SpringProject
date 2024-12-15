@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -52,24 +53,37 @@ public class ReservationService {
             return false;
         }
 
-        //try{
             reservation.setStatus(Reservation.Status.COMPLETED);
             reservation.setReturnDate(Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()));
             reservationRepository.save(reservation);
 
             carRepository.updateCarStatusToAvailable(car.getBarcode());
             return true;
-        //} catch (Exception e) {
-          //  e.printStackTrace();
-        //    return false;
-        //}
     }
     @Transactional
-    public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<Equipment> addiEquipments, List<Services> addiServices) {
+    public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<String> addiEquipments, List<String> addiServices) {
         Car c = carRepository.findCarByBarcode(carBarcode);
         Location pickL=locationRepository.findByCode(pickUpLocCode);
         Location dropL=locationRepository.findByCode(dropOffLocCode);
-          Member m=memberRepository.findMemById(memId);
+        Member m=memberRepository.findMemById(memId);
+        List<Equipment> equipments = new ArrayList<>();
+        List<Services> services = new ArrayList<>();
+        for (String Name : addiEquipments) {
+            Equipment equipment = equipmentRepository.findByName(Name);
+            if (equipment == null) {
+                return null;
+            } else {
+                equipments.add(equipment);
+            }
+        }
+        for (String Name : addiServices) {
+            Services service = serviceRepository.findByName(Name);
+            if (service == null) {
+                return null;
+            } else {
+                services.add(service);
+            }
+        }
           if(c!=null && pickL!=null && dropL!=null && m!=null){
               if (carRepository.isAvailable(carBarcode)) {
                   Reservation reservation = new Reservation(
@@ -83,9 +97,9 @@ public class ReservationService {
                   );
                   reservation.setCar(c);
                   reservation.setStatus(Reservation.Status.PENDING);
-                  reservation.setServiceList(addiServices);
-                  reservation.setEquipmentList(addiEquipments);
-                  reservation.setTotalAmount(calculateTotalAmount(dayCount, c.getDailyPrice(), addiServices, addiEquipments));
+                  reservation.setServiceList(services);
+                  reservation.setEquipmentList(equipments);
+                  reservation.setTotalAmount(calculateTotalAmount(dayCount, c.getDailyPrice(), services, equipments));
                   reservation.setReservationNumber(generateReservationNumber());
                   reservationRepository.save(reservation);
                   c.setStatus(Car.CarStatus.LOANED);

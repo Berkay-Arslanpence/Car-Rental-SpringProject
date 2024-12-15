@@ -11,8 +11,8 @@ public class MakeReservationRequestDTO {
     private Long memberId;
     private String pickupLocationCode;
     private String dropOffLocationCode;
-    private List<Services> addiServices;
-    private List<Equipment> addiEquipments;
+    private List<String> addiServices;
+    private List<String> addiEquipments;
 
     // Getters and Setters
     public String getCarBarcode() {
@@ -55,19 +55,19 @@ public class MakeReservationRequestDTO {
         this.dropOffLocationCode = dropOffLocationCode;
     }
 
-    public List<Services> getAddiServices() {
+    public List<String> getAddiServices() {
         return addiServices;
     }
 
-    public void setAddiServices(List<Services> addiServices) {
+    public void setAddiServices(List<String> addiServices) {
         this.addiServices = addiServices;
     }
 
-    public List<Equipment> getAddiEquipments() {
+    public List<String> getAddiEquipments() {
         return addiEquipments;
     }
 
-    public void setAddiEquipments(List<Equipment> addiEquipments) {
+    public void setAddiEquipments(List<String> addiEquipments) {
         this.addiEquipments = addiEquipments;
     }
 }
