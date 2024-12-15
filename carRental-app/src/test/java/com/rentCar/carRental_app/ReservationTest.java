@@ -2,6 +2,7 @@ package com.rentCar.carRental_app;
 
 import com.rentCar.carRental_app.dto.ReservationDTO;
 import com.rentCar.carRental_app.dto.ServiceDTO;
+import com.rentCar.carRental_app.mapper.EquipmentMapper;
 import com.rentCar.carRental_app.mapper.ReservationMapper;
 import com.rentCar.carRental_app.mapper.ServiceMapper;
 import com.rentCar.carRental_app.model.*;
@@ -82,14 +83,18 @@ class ReservationTest {
 
     @Test
     void testMakeReservation() {
-        ReservationDTO result = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
+        ReservationDTO result = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
+                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
+                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
         reservationRepository.save(ReservationMapper.ReservationDTOToReservation(result));
         assertThat(result).isNotNull();
     }
 
     @Test
     void testDeleteReservationByReservationNumber() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
+                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
+                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
         Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
         reservationRepositoryNM.save(reservation);
 
@@ -100,7 +105,9 @@ class ReservationTest {
 
     @Test
     void testAddAdditionalService() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
+                EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
+                ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
         Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
         reservationRepositoryNM.save(reservation);
         System.out.println(reservation);
@@ -114,7 +121,9 @@ class ReservationTest {
 
     @Test
     void testAddAdditionalEquipment() {
-        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002", equipmentService.getAllEquipment(), serviceService.getAllServices());
+        ReservationDTO reservationDTO = reservationServiceNM.makeReservation("CAR002", 5, 1L, "LOC001", "LOC002",
+        EquipmentMapper.EquipmentDTOListToEquipmentList(equipmentService.getAllEquipment()),
+        ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices())) ;
         Reservation reservation = ReservationMapper.ReservationDTOToReservation(reservationDTO);
         reservationRepositoryNM.save(reservation);
         Equipment equipment = new Equipment();

@@ -1,5 +1,6 @@
 package com.rentCar.carRental_app;
 
+import com.rentCar.carRental_app.dto.LocationDTO;
 import com.rentCar.carRental_app.model.Location;
 import com.rentCar.carRental_app.service.LocationService;
 import com.rentCar.carRental_app.repo.LocationRepository;
@@ -30,7 +31,7 @@ class LocationTest {
         location.setName("New York");
         when(locationRepository.findAll()).thenReturn(Arrays.asList(location));
 
-        List<Location> result = locationService.getAllLocations();
+        List<LocationDTO> result = locationService.getAllLocations();
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getCode()).isEqualTo("LOC123");
@@ -44,7 +45,7 @@ class LocationTest {
         location.setName("New York");
         when(locationRepository.findByCode("LOC123")).thenReturn(location);
 
-        Location result = locationService.getLocationByCode("LOC123");
+        LocationDTO result = locationService.getLocationByCode("LOC123");
 
         assertThat(result).isNotNull();
         assertThat(result.getCode()).isEqualTo("LOC123");

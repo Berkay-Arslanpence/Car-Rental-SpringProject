@@ -5,10 +5,7 @@ import com.rentCar.carRental_app.dto.RentedCarDTO;
 import com.rentCar.carRental_app.dto.ReservationDTO;
 import com.rentCar.carRental_app.mapper.CarMapper;
 import com.rentCar.carRental_app.mapper.ReservationMapper;
-import com.rentCar.carRental_app.model.Car;
-import com.rentCar.carRental_app.model.Equipment;
-import com.rentCar.carRental_app.model.Reservation;
-import com.rentCar.carRental_app.model.Services;
+import com.rentCar.carRental_app.model.*;
 import com.rentCar.carRental_app.repo.*;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,32 +64,44 @@ public class ReservationService {
         //    return false;
         //}
     }
+    @Transactional
     public ReservationDTO makeReservation(String carBarcode, int dayCount, Long memId, String pickUpLocCode, String dropOffLocCode, List<Equipment> addiEquipments, List<Services> addiServices) {
         Car c = carRepository.findCarByBarcode(carBarcode);
-        if (carRepository.isAvailable(carBarcode)) {
-            Reservation reservation = new Reservation(
-                    Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
-                    Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()),
-                    Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
-                    Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
-                    locationRepository.findByCode(pickUpLocCode),
-                    locationRepository.findByCode(dropOffLocCode),
-                    memberRepository.findMemById(memId)
-            );
-            reservation.setCar(c);
-            reservation.setStatus(Reservation.Status.PENDING);
-            reservation.setServiceList(addiServices);
-            reservation.setEquipmentList(addiEquipments);
-            reservation.setTotalAmount(calculateTotalAmount(dayCount, c.getDailyPrice(), addiServices, addiEquipments));
-            reservation.setReservationNumber(generateReservationNumber());
-            reservationRepository.save(reservation);
-            c.setStatus(Car.CarStatus.LOANED);
-            carRepository.save(c);
-            return ReservationMapper.ReservationToReservationDTO(reservation);
-        } else {
-            System.out.println("Reservation Failed!, The car is not available");
+        Location pickL=locationRepository.findByCode(pickUpLocCode);
+        Location dropL=locationRepository.findByCode(dropOffLocCode);
+          Member m=memberRepository.findMemById(memId);
+          if(c!=null && pickL!=null && dropL!=null && m!=null){
+              if (carRepository.isAvailable(carBarcode)) {
+                  Reservation reservation = new Reservation(
+                          Date.from(LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant()),
+                          Date.from(LocalDateTime.now().plusDays(1).atZone(ZoneId.systemDefault()).toInstant()),
+                          Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
+                          Date.from(LocalDateTime.now().plusDays(1 + dayCount).atZone(ZoneId.systemDefault()).toInstant()),
+                          locationRepository.findByCode(pickUpLocCode),
+                          locationRepository.findByCode(dropOffLocCode),
+                          memberRepository.findMemById(memId)
+                  );
+                  reservation.setCar(c);
+                  reservation.setStatus(Reservation.Status.PENDING);
+                  reservation.setServiceList(addiServices);
+                  reservation.setEquipmentList(addiEquipments);
+                  reservation.setTotalAmount(calculateTotalAmount(dayCount, c.getDailyPrice(), addiServices, addiEquipments));
+                  reservation.setReservationNumber(generateReservationNumber());
+                  reservationRepository.save(reservation);
+                  c.setStatus(Car.CarStatus.LOANED);
+                  carRepository.save(c);
+                  return ReservationMapper.ReservationToReservationDTO(reservation);
+          }
+              else{
+                  System.out.println("Reservation Failed!, The car is not available");
+                  return null;
+              }
+
         }
-        return null;
+          else {
+              return null;
+        }
+
     }
 
 
@@ -131,6 +140,7 @@ public class ReservationService {
             }
             reservationRepository.deleteReservation(reservationNumber);
             c.setStatus(Car.CarStatus.AVAILABLE);
+            carRepository.save(c);
             return true;
     }
 

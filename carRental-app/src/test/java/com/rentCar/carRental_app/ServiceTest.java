@@ -1,5 +1,6 @@
 package com.rentCar.carRental_app;
 
+import com.rentCar.carRental_app.mapper.ServiceMapper;
 import com.rentCar.carRental_app.model.Services;
 import com.rentCar.carRental_app.service.ServiceService;
 import com.rentCar.carRental_app.repo.ServiceRepository;
@@ -29,7 +30,7 @@ class ServiceTest {
         service.setName("Car Wash");
         when(serviceRepository.findAll()).thenReturn(Arrays.asList(service));
 
-        List<Services> result = serviceService.getAllServices();
+        List<Services> result = ServiceMapper.ServiceDTOListtoServiceList(serviceService.getAllServices());
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).getName()).isEqualTo("Car Wash");
@@ -42,7 +43,7 @@ class ServiceTest {
         service.setName("Car Wash");
         when(serviceRepository.findByName("Car Wash")).thenReturn(service);
 
-        Services result = serviceService.getServiceByName("Car Wash");
+        Services result = ServiceMapper.serviceDTOToService(serviceService.getServiceByName("Car Wash")) ;
 
         assertThat(result).isNotNull();
         assertThat(result.getName()).isEqualTo("Car Wash");
