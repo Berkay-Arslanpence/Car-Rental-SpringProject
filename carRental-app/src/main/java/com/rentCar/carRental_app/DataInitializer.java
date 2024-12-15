@@ -105,8 +105,8 @@ public class DataInitializer {
             equipment2.setPrice(15.0);
 
             Equipment equipment3 = new Equipment();
-            equipment2.setName("Additional Baggage");
-            equipment2.setPrice(12.0);
+            equipment3.setName("Additional Baggage");
+            equipment3.setPrice(12.0);
 
             equipmentRepository.saveAll(List.of(equipment1, equipment2, equipment3));
 
