@@ -19,6 +19,9 @@ public interface CarRepository extends JpaRepository<Car, String> {
     @Query(value="select not exists(select 1 from Reservation r where r.car.barcode= :barcode) and exists( select 1 from Car c where c.barcode= :barcode and c.status='AVAILABLE')")
     boolean isCarDeletable(String barcode);
 
+    @Query(value = "select exists(select 1 from Car c where c.barcode= :barcode)")
+    boolean existsByBarcode(String barcode);
+
     @Modifying
     @Transactional
     @Query(value="delete from Car c where c.barcode= :barcode")
