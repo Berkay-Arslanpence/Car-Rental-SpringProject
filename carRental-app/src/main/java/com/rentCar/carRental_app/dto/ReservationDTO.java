@@ -2,6 +2,7 @@ package com.rentCar.carRental_app.dto;
 
 import com.rentCar.carRental_app.repo.LocationRepository;
 import com.rentCar.carRental_app.service.LocationService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
 
@@ -17,8 +18,6 @@ public class ReservationDTO {
     private String dropOffLocationName;
     private double totalAmount;
 
-    private LocationService locationService;
-
     public ReservationDTO() {
         super();
     }
@@ -32,7 +31,7 @@ public class ReservationDTO {
         this.totalAmount = totalAmount;
     }
 
-    public ReservationDTO(String reservationNumber,Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate, double totalAmount, String pickUpLocationCode, String dropOffLocationCode) {
+    public ReservationDTO(String reservationNumber,Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate, double totalAmount, String pickUpLocationCode, String pickUpLocationName, String dropOffLocationCode, String dropOffLocationName) {
         super();
         this.reservationNumber=reservationNumber;
         this.creationDate = creationDate;
@@ -41,9 +40,9 @@ public class ReservationDTO {
         this.returnDate = returnDate;
         this.totalAmount = totalAmount;
         this.pickUpLocationCode = pickUpLocationCode;
-        this.pickUpLocationName = locationService.getLocationByCode(pickUpLocationCode).getName();
+        this.pickUpLocationName = pickUpLocationName;
         this.dropOffLocationCode = dropOffLocationCode;
-        this.dropOffLocationName = locationService.getLocationByCode(dropOffLocationCode).getName();
+        this.dropOffLocationName = dropOffLocationName;
     }
 
     public Date getCreationDate() {

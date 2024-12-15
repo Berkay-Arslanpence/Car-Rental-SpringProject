@@ -104,7 +104,7 @@ public class ReservationService {
                   reservationRepository.save(reservation);
                   c.setStatus(Car.CarStatus.LOANED);
                   carRepository.save(c);
-                  return ReservationMapper.ReservationToReservationDTO(reservation);
+                  return ReservationMapper.ReservationToReservationDTOWithLocations(reservation);
           }
               else{
                   System.out.println("Reservation Failed!, The car is not available");
@@ -118,9 +118,9 @@ public class ReservationService {
               if(m==null)
                   System.out.println("member is null");
               if(pickL==null)
-                  System.out.println("car is null");
+                  System.out.println("PickupLocation is null");
               if(dropL==null)
-                  System.out.println("car is null");
+                  System.out.println("DropoffLocation is null");
               return null;
         }
 

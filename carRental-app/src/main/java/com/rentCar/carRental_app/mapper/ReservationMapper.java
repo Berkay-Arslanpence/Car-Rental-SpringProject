@@ -17,4 +17,8 @@ public class ReservationMapper {
     public static ReservationDTO ReservationToReservationDTO(Reservation reservation) {
         return new ReservationDTO(reservation.getReservationNumber(),reservation.getCreationDate(),reservation.getPickUpDateTime(),reservation.getDropOffDateTime(),reservation.getReturnDate(),reservation.getTotalAmount());
     }
+
+    public static ReservationDTO ReservationToReservationDTOWithLocations(Reservation reservation) {
+        return new ReservationDTO(reservation.getReservationNumber(),reservation.getCreationDate(),reservation.getPickUpDateTime(),reservation.getDropOffDateTime(),reservation.getReturnDate(),reservation.getTotalAmount(),reservation.getPickUpLocation().getCode(), reservation.getPickUpLocation().getName() ,reservation.getDropOffLocation().getCode(), reservation.getDropOffLocation().getName());
+    }
 }
