@@ -1,5 +1,8 @@
 package com.rentCar.carRental_app.dto;
 
+import com.rentCar.carRental_app.repo.LocationRepository;
+import com.rentCar.carRental_app.service.LocationService;
+
 import java.util.Date;
 
 public class ReservationDTO {
@@ -8,7 +11,14 @@ public class ReservationDTO {
     private Date pickUpDateTime;
     private Date dropOffDateTime;
     private Date returnDate;
+    private String pickUpLocationCode;
+    private String pickUpLocationName;
+    private String dropOffLocationCode;
+    private String dropOffLocationName;
     private double totalAmount;
+
+    private LocationService locationService;
+
     public ReservationDTO() {
         super();
     }
@@ -20,6 +30,20 @@ public class ReservationDTO {
         this.dropOffDateTime = dropOffDateTime;
         this.returnDate = returnDate;
         this.totalAmount = totalAmount;
+    }
+
+    public ReservationDTO(String reservationNumber,Date creationDate, Date pickUpDateTime , Date dropOffDateTime, Date returnDate, double totalAmount, String pickUpLocationCode, String dropOffLocationCode) {
+        super();
+        this.reservationNumber=reservationNumber;
+        this.creationDate = creationDate;
+        this.pickUpDateTime = pickUpDateTime;
+        this.dropOffDateTime = dropOffDateTime;
+        this.returnDate = returnDate;
+        this.totalAmount = totalAmount;
+        this.pickUpLocationCode = pickUpLocationCode;
+        this.pickUpLocationName = locationService.getLocationByCode(pickUpLocationCode).getName();
+        this.dropOffLocationCode = dropOffLocationCode;
+        this.dropOffLocationName = locationService.getLocationByCode(dropOffLocationCode).getName();
     }
 
     public Date getCreationDate() {
@@ -68,5 +92,37 @@ public class ReservationDTO {
 
     public void setTotalAmount(double totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public String getPickUpLocationCode() {
+        return pickUpLocationCode;
+    }
+
+    public void setPickUpLocationCode(String pickUpLocationCode) {
+        this.pickUpLocationCode = pickUpLocationCode;
+    }
+
+    public String getPickUpLocationName() {
+        return pickUpLocationName;
+    }
+
+    public void setPickUpLocationName(String pickUpLocationName) {
+        this.pickUpLocationName = pickUpLocationName;
+    }
+
+    public String getDropOffLocationCode() {
+        return dropOffLocationCode;
+    }
+
+    public void setDropOffLocationCode(String dropOffLocationCode) {
+        this.dropOffLocationCode = dropOffLocationCode;
+    }
+
+    public String getDropOffLocationName() {
+        return dropOffLocationName;
+    }
+
+    public void setDropOffLocationName(String dropOffLocationName) {
+        this.dropOffLocationName = dropOffLocationName;
     }
 }
