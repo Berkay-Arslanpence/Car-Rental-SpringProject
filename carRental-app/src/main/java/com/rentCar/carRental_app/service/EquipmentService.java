@@ -31,6 +31,9 @@ public class EquipmentService {
 
     public EquipmentDTO getEquipmentByName(String name) {
         Equipment e=equipmentRepository.findByName(name);
+        if(e==null){
+            return null;
+        }
        return equipmentMapper.EquipmentToEquipmentDTO(e);
     }
 }
